@@ -12,7 +12,10 @@ class TikTok(Plugin):
 
     def will_generate_reply(self, event: Event):
         query = event.context.query
-        if query == self.config.get("command"):
+        commands = self.config.get("command")
+        if not isinstance(commands, list):
+            commands = [commands]  # 将单一命令字符串转换为列表
+        if query in commands:
             event.reply = self.reply()
             event.bypass()
 
